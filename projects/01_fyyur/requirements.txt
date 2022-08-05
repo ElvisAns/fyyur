@@ -1,14 +1,18 @@
-#Dep list generated with pip list
+alembic==1.8.1  
 Babel==2.9.0  
 click==8.1.3  
 Flask==2.2.1  
+Flask-Migrate==3.1.0  
 Flask-Moment==1.0.4  
+Flask-Script==2.0.6  
 Flask-SQLAlchemy==2.5.1  
 Flask-WTF==1.0.1  
 greenlet==1.1.2  
 importlib-metadata==4.12.0 
+importlib-resources==5.9.0  
 itsdangerous==2.1.2  
 Jinja2==3.1.2  
+Mako==1.2.1  
 MarkupSafe==2.1.1  
 packaging==21.3   
 pip==20.0.2 
