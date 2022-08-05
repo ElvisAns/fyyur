@@ -6,7 +6,7 @@ db = SQLAlchemy()
 # Models.
 #----------------------------------------------------------------------------#
 
-Show = db.table('Show',
+Show = db.Table('Show',
     db.Column('id',db.Integer,primary_key=True),
     db.Column('venue',db.Integer,db.ForeignKey('Venue.id'),nullable=True),
     db.Column('artist_id',db.Integer,db.ForeignKey('Artist.id'),nullable=False),
