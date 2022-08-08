@@ -28,7 +28,7 @@ migrate = Migrate(app, db)
 
 Show = db.Table('show',
     db.Column('id',db.Integer,primary_key=True),
-    db.Column('venue',db.Integer,db.ForeignKey('venue.id'),nullable=True),
+    db.Column('venue',db.Integer,db.ForeignKey('venue.id'),nullable=False),
     db.Column('artist_id',db.Integer,db.ForeignKey('artist.id'),nullable=False),
     db.Column('start_time',db.DateTime,nullable=False)
 )
@@ -63,6 +63,18 @@ class Artist(db.Model):
 # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
+
+venue1 = Venue(name="The Musical Hop",city="San Francisco",state="CA",address="Congolo",phone="+243971774989")
+venue2 = Venue(name="The Room Hop",city="San Francisco",state="CA",address="Congolo",phone="+5352235")
+venue3 = Venue(name="The Cofee Hop",city="Bukavu",state="BK",address="Congolo",phone="+3454545")
+venue4 = Venue(name="Serena Hotel Meeting",city="San Francisco",state="CA",address="Some Address",phone="+243971774989")
+venue5 = Venue(name="Automatica GOMA lunch",city="Goma DRC",state="GO",address="Goma Q.Katoyi",phone="+331193288")
+
+
+db.session.add_all([venue1,venue2,venue3,venue4,venue5])
+
+db.session.commit()
+
 
 
 #----------------------------------------------------------------------------#
