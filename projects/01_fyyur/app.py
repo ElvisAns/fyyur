@@ -44,7 +44,7 @@ class Venue(db.Model):
     phone = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))  
-    shows = db.relationship('artist', secondary=Show, backref=db.backref('venue', lazy=True))
+    artist = db.relationship('Artist', secondary=Show, backref=db.backref('venue', lazy=True))
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
@@ -74,7 +74,6 @@ venue5 = Venue(name="Automatica GOMA lunch",city="Goma DRC",state="GO",address="
 db.session.add_all([venue1,venue2,venue3,venue4,venue5])
 
 db.session.commit()
-
 
 
 #----------------------------------------------------------------------------#
