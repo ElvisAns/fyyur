@@ -30,7 +30,7 @@ Show = db.Table('show',
     db.Column('id',db.Integer,primary_key=True),
     db.Column('venue',db.Integer,db.ForeignKey('venue.id'),nullable=False),
     db.Column('artist_id',db.Integer,db.ForeignKey('artist.id'),nullable=False),
-    db.Column('start_time',db.DateTime,nullable=False)
+    db.Column('start_time',db.DateTime,default=datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
 )
 
 class Venue(db.Model):
@@ -64,16 +64,22 @@ class Artist(db.Model):
 
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 
-venue1 = Venue(name="The Musical Hop",city="San Francisco",state="CA",address="Congolo",phone="+243971774989")
-venue2 = Venue(name="The Room Hop",city="San Francisco",state="CA",address="Congolo",phone="+5352235")
-venue3 = Venue(name="The Cofee Hop",city="Bukavu",state="BK",address="Congolo",phone="+3454545")
-venue4 = Venue(name="Serena Hotel Meeting",city="San Francisco",state="CA",address="Some Address",phone="+243971774989")
-venue5 = Venue(name="Automatica GOMA lunch",city="Goma DRC",state="GO",address="Goma Q.Katoyi",phone="+331193288")
+venue1 = Venue(name="Sanaa Weekend",city="San Francisco",state="CA",address="Congolo",phone="+243971774989")
 
+artist1 = Artist(name="John Santos",city="Bukavu",state="Nord kivu",phone="+2439981333",genres= json.dumps(["Pop","RNB"]))
 
-db.session.add_all([venue1,venue2,venue3,venue4,venue5])
+venue1.start_time = start_time=datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+artist1.venue.append(venue1)
 
-db.session.commit()
+db.session.add_all([venue1,artist1])
+
+try:
+  db.session.commit()
+except Exception as e:
+  print(e)
+  print("There was an error executing your command")
+  db.session.rollback()
+
 
 
 #----------------------------------------------------------------------------#
