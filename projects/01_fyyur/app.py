@@ -155,9 +155,7 @@ def venues():
   # TODO: replace with real venues data.
   #       num_upcoming_shows should be aggregated based on number of upcoming shows per venue.
   city_venues = db.session.query(Venue.city,Venue.state,func.count(Venue.id)).group_by('city','state').all()
-
   data = []
-
   for places in city_venues:
     new_city = {}
     new_city['city']=places[0]
