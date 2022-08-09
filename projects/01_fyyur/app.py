@@ -42,7 +42,7 @@ class Venue(db.Model):
     __tablename__ = 'venue'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String,primary_key=True,autoincrement=False)
+    name = db.Column(db.String,unique=True)
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
     address = db.Column(db.String(120))
@@ -323,14 +323,24 @@ def create_venue_submission():
   # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
   return render_template('pages/home.html')
 
-@app.route('/venues/<venue_id>', methods=['DELETE'])
+@app.route('/venues/delete/<venue_id>', methods=['GET'])
 def delete_venue(venue_id):
-  # TODO: Complete this endpoint for taking a venue_id, and using
-  # SQLAlchemy ORM to delete a record. Handle cases where the session commit could fail.
 
-  # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
-  # clicking that button delete it from the db then redirect the user to the homepage
-  return None
+  venue = Venue.query.get(venue_id)
+  show = Show.query.filter_by(venue_id=venue_id).first()
+  db.session.delete(show)
+  db.session.delete(venue)
+
+  try:
+    db.session.commit()
+    flash('The Venue '+ venue_id+' was successfully deleted!')
+  except Exception as e:
+    print(e)
+    flash('An error occurred, Venue '+venue_id+' could not be deleted!')
+  finally:
+    db.session.close()
+  
+  return redirect(url_for("index"))
 
 #  Artists
 #  ----------------------------------------------------------------
