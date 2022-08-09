@@ -42,13 +42,15 @@ class Venue(db.Model):
     __tablename__ = 'venue'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
+    name = db.Column(db.String,primary_key=True)
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
     address = db.Column(db.String(120))
     phone = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
-    facebook_link = db.Column(db.String(120))  
+    facebook_link = db.Column(db.String(120))
+    seeking_talent = db.Column(db.Boolean,default=False)
+    seeking_description = db.Column(db.String)  
     artists = db.relationship('Show',back_populates='venue')
 
     def __repr__(self):
@@ -282,6 +284,21 @@ def create_venue_form():
 
 @app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
+  datas = request.form
+
+  venue = Venue(
+    name=datas['name'],
+    city=datas['city'],
+    state=datas['state'],
+    address=datas['address'],
+    phone=datas['phone'],
+    genres=json.dumps(datas['genres']),
+    seeking_talent=datas['seeking_talent'],
+    seeking_description=datas['seeking_description']
+  )
+
+  db.session.add(venue)
+
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
 
