@@ -564,15 +564,47 @@ def create_shows():
 
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
+  datas =  request.form
+  print(datas)
+  venue1 = Venue.query.get(datas["venue_id"]) #parent
+  if not venue1:
+    flash("The venue ID could not be found")
+    return redirect(url_for('index'))
+
+  artist1 = Artist.query.get(datas["artist_id"]) #child
+  if not artist1:
+    flash("The artist ID could not be found")
+    return redirect(url_for('index'))
+
+  show1 = Show(start_time=datas['start_time'])
+  show1.artist = artist1
+  show1.venue = venue1
+  show_exist = Show.query.filter(Show.venue_id==datas["venue_id"],Show.artist_id==datas["artist_id"]).all()
+  if(show_exist):
+    flash("A simular show is already listed")
+    return redirect(url_for('index'))
+
+  db.session.add(show1)
+
+  try:
+    db.session.commit()
+    flash('Show was successfully listed!')
+  except Exception as e:
+    print(e)
+    db.session.rollback()
+    flash("Un error occured while listing the show")
+  finally:
+    db.session.close()
+
   # called to create new shows in the db, upon submitting new show listing form
   # TODO: insert form data as a new Show record in the db, instead
 
   # on successful db insert, flash success
-  flash('Show was successfully listed!')
+  #flash('Show was successfully listed!')
   # TODO: on unsuccessful db insert, flash an error instead.
   # e.g., flash('An error occurred. Show could not be listed.')
   # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
-  return render_template('pages/home.html')
+  return redirect(url_for('index'))
 
 @app.errorhandler(404)
 def not_found_error(error):
