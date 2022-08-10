@@ -201,7 +201,7 @@ def show_venue(venue_id):
   venue=Venue.query.get(venue_id)
   data['name']=venue.name
   data['id']=venue.id
-  data["genres"]=[venue.genres]
+  data["genres"]=json.loads(venue.genres)
   data["address"]=venue.address
   data["city"]=venue.city
   data["state"]=venue.state
