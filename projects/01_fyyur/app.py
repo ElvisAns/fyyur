@@ -343,7 +343,11 @@ def show_artist(artist_id):
   artist=Artist.query.get(artist_id)
   data['name']=artist.name
   data['id']=artist.id
-  data["genres"]=json.loads(artist.genres)
+  try:
+    data["genres"]=json.loads(artist.genres)
+  except: 
+    data["genres"]=[artist.genres]
+    print("Genre error")
   data["city"]=artist.city
   data["state"]=artist.state
   data["phone"]=artist.phone
@@ -386,13 +390,19 @@ def show_artist(artist_id):
 @app.route('/artists/<int:artist_id>/edit', methods=['GET'])
 def edit_artist(artist_id):
   artist=Artist.query.get(artist_id)
+  try:
+    g=json.loads(artist.genres)
+  except: 
+    g=[artist.genres]
+    print("Genre error")
+
   forms = ArtistForm(
     id=artist.id,
     name = artist.name,
-    genres = json.loads(artist.genres),
     city=artist.city,
     state=artist.state,
     phone=artist.phone,
+    genres=g,
     website=artist.website_link,
     facebook_link=artist.facebook_link,
     seeking_venue=artist.seeking_venue,
@@ -441,10 +451,16 @@ def edit_artist_submission(artist_id):
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
 def edit_venue(venue_id):
   venue = Venue.query.get(venue_id)
+  try:
+    g=json.loads(venue.genres)
+  except: 
+    g=[venue.genres]
+    print("Genre error")
+    
   form = VenueForm(
     id=venue.id,
     name=venue.name,
-    genres=json.loads(venue.genres),
+    genres=g,
     address=venue.address,
     city=venue.city,
     state=venue.state,
