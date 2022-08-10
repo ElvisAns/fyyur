@@ -229,13 +229,13 @@ def show_venue(venue_id):
 
   for show in shows:
     toPush={}
-    artistForThisShow = Artist.query.get(show["artist_id"])
-    comp_show_time = datetime.strptime(show.start_time, "%d/%m/%Y %H:%M:%S")
+    artistForThisShow = Artist.query.get(show.artist_id)
+    comp_show_time = datetime.strptime(str(show.start_time), "%Y-%m-%d %H:%M:%S")
 
     toPush["artist_id"] = artistForThisShow.id
     toPush["artist_name"] = artistForThisShow.name
     toPush["artist_image_link"] = artistForThisShow.image_link
-    toPush["artist_image_link"] = artistForThisShow.start_time
+    toPush["start_time"] = str(show.start_time)
 
     if(comp_now>comp_show_time): #old show
       data["past_shows"].append(toPush)
@@ -363,13 +363,13 @@ def show_artist(artist_id):
 
   for show in shows:
     toPush={}
-    venueForThisShow = Venue.query.get(show["venue_id"])
-    comp_show_time = datetime.strptime(show.start_time, "%d/%m/%Y %H:%M:%S")
+    venueForThisShow = Venue.query.get(show.venue_id)
+    comp_show_time = datetime.strptime(str(show.start_time), "%Y-%m-%d %H:%M:%S")
 
-    toPush["artist_id"] = venueForThisShow.id
-    toPush["artist_name"] = venueForThisShow.name
-    toPush["artist_image_link"] = venueForThisShow.image_link
-    toPush["artist_image_link"] = venueForThisShow.start_time
+    toPush["venue_id"] = venueForThisShow.id
+    toPush["venue_name"] = venueForThisShow.name
+    toPush["venue_image_link"] = venueForThisShow.image_link
+    toPush["start_time"] = str(show.start_time)
 
     if(comp_now>comp_show_time): #old show
       data["past_shows"].append(toPush)
@@ -386,7 +386,6 @@ def show_artist(artist_id):
 @app.route('/artists/<int:artist_id>/edit', methods=['GET'])
 def edit_artist(artist_id):
   artist=Artist.query.get(artist_id)
-  print(artist.name)
   forms = ArtistForm(
     id=artist.id,
     name = artist.name,
@@ -558,10 +557,6 @@ def create_show_submission():
   show1 = Show(start_time=datas['start_time'])
   show1.artist = artist1
   show1.venue = venue1
-  show_exist = Show.query.filter(Show.venue_id==datas["venue_id"],Show.artist_id==datas["artist_id"]).all()
-  if(show_exist):
-    flash("A simular show is already listed")
-    return redirect(url_for('index'))
 
   db.session.add(show1)
 
