@@ -258,6 +258,10 @@ def create_venue_form():
 @app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
   datas = request.form
+  try:
+    y=True if (datas['seeking_talent']=='y') else False
+  except:
+    y=False
   venue = Venue(
     name=datas['name'],
     city=datas['city'],
@@ -268,7 +272,7 @@ def create_venue_submission():
     facebook_link=datas['facebook_link'],
     image_link = datas['image_link'],
     website_link= datas['website_link'],
-    seeking_talent=True if (datas['seeking_talent']=='y') else False,
+    seeking_talent=y,
     seeking_description=datas['seeking_description']
   )
 
