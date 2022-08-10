@@ -257,7 +257,7 @@ def create_venue_submission():
     state=datas['state'],
     address=datas['address'],
     phone=datas['phone'],
-    genres=datas['genres'],
+    genres=json.dumps(datas['genres']),
     facebook_link=datas['facebook_link'],
     image_link = datas['image_link'],
     website_link= datas['website_link'],
