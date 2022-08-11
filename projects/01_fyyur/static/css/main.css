@@ -209,3 +209,7 @@ h2.monospace {
 .subtitle {
   opacity: 0.5;
 }
+.artist_caption{
+  height: 60px;
+  border-radius: 10px;
+}

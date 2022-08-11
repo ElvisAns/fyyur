@@ -5,7 +5,7 @@
 	{% for artist in artists %}
 	<li>
 		<a href="/artists/{{ artist.id }}">
-			<i class="fas fa-users"></i>
+			<img src="{{artist.image_link}}" class="artist_caption">
 			<div class="item">
 				<h5>{{ artist.name }}</h5>
 			</div>
