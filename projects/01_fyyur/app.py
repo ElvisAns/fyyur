@@ -213,8 +213,15 @@ def artists():
 @app.route('/artists/search', methods=['POST'])
 def search_artists():
   search = request.form.get("search_term")
+  option_for_search = request.form.get("option_for_search")
+  print(option_for_search)
   if search is not None:
-    result = Artist.query.filter(Artist.name.ilike(f'%{search}%') | Artist.name.ilike(f'{search}%')| Artist.name.ilike(f'%{search}')).all()
+    if option_for_search == "name":
+      result = Artist.query.filter(Artist.name.ilike(f'%{search}%') | Artist.name.ilike(f'{search}%')| Artist.name.ilike(f'%{search}')).all()
+    elif option_for_search == "city" :
+      result = Artist.query.filter(Artist.city.ilike(f'%{search}%') | Artist.city.ilike(f'{search}%')| Artist.city.ilike(f'%{search}')).all()
+    else:
+      result = Artist.query.filter(Artist.state.ilike(f'%{search}%') | Artist.state.ilike(f'{search}%')| Artist.state.ilike(f'%{search}')).all()
   else:
     result = Artist.query.all()
 
