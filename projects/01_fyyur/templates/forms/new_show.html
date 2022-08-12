@@ -7,12 +7,12 @@
       <div class="form-group">
         <label for="artist_id">Artist ID</label>
         <small>ID can be found on the Artist's Page</small>
-        {{ form.artist_id(class_ = 'form-control', autofocus = true) }}
+        {{ form.artist_id(class_ = 'form-control', autofocus = true,required = true) }}
       </div>
       <div class="form-group">
         <label for="venue_id">Venue ID</label>
         <small>ID can be found on the Venue's Page</small>
-        {{ form.venue_id(class_ = 'form-control', autofocus = true) }}
+        {{ form.venue_id(class_ = 'form-control', autofocus = true, required = true) }}
       </div>
       <div class="form-group">
           <label for="start_time">Start Time</label>
