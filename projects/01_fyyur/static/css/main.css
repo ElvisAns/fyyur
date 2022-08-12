@@ -219,3 +219,8 @@ h2.monospace {
   padding:20px 0px;
   text-align: center;
 }
+
+.custom_input{
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
