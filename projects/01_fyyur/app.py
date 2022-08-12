@@ -80,8 +80,14 @@ def venues():
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
   search = request.form.get("search_term")
+  option_for_search = request.form.get("option_for_search")
   if search is not None:
-    result = Venue.query.filter(Venue.name.ilike(f'%{search}%') | Venue.name.ilike(f'{search}%')| Venue.name.ilike(f'%{search}')).all()
+    if option_for_search == "name":
+      result = Venue.query.filter(Venue.name.ilike(f'%{search}%') | Venue.name.ilike(f'{search}%')| Venue.name.ilike(f'%{search}')).all()
+    elif option_for_search == "city":
+      result = Venue.query.filter(Venue.city.ilike(f'%{search}%') | Venue.city.ilike(f'{search}%')| Venue.city.ilike(f'%{search}')).all()
+    else:
+      result = Venue.query.filter(Venue.state.ilike(f'%{search}%') | Venue.state.ilike(f'{search}%')| Venue.state.ilike(f'%{search}')).all()
   else:
     result = Venue.query.all()
 
@@ -214,7 +220,6 @@ def artists():
 def search_artists():
   search = request.form.get("search_term")
   option_for_search = request.form.get("option_for_search")
-  print(option_for_search)
   if search is not None:
     if option_for_search == "name":
       result = Artist.query.filter(Artist.name.ilike(f'%{search}%') | Artist.name.ilike(f'{search}%')| Artist.name.ilike(f'%{search}')).all()
