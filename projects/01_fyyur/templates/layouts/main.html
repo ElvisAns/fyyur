@@ -56,11 +56,16 @@
                 (request.endpoint == 'search_venues') or
                 (request.endpoint == 'show_venue') %}
               <form class="search" method="post" action="/venues/search">
-                <input class="form-control"
-                  type="search"
-                  name="search_term"
-                  placeholder="Find a venue"
-                  aria-label="Search">
+                <div class="input-group">
+                  <input class="form-control" type="search" name="search_term" placeholder="Find a venue" aria-label="Search">
+                  <div class="input-group-btn" style="width: 130px;">
+                    <select class="form-control" name="option_for_search" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+                      <option value="name" selected>Venue Name</option>
+                      <option value="city" >City</option>
+                      <option value="state" >State</option>
+                    </select>
+                  </div>
+                </div>
               </form>
               {% endif %}
               {% if (request.endpoint == 'artists') or
