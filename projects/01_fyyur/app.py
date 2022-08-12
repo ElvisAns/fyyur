@@ -73,6 +73,7 @@ def venues():
         new_venue = {}
         new_venue['id'] = venue.id
         new_venue['name'] = venue.name
+        new_venue['image_link'] = venue.image_link
         new_venue["num_upcoming_shows"]=len(venue.artists)
         new_city['venues'].append(new_venue)
     data.append(new_city)

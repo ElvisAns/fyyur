@@ -8,6 +8,7 @@
 			{% for venue in area.venues %}
 			<div class="col-sm-12">
 				<a href="/venues/{{ venue.id }}">
+					<img src="{{ venue.image_link }}" style="height:120px;"/>
 					<div class="item">
 						<i class="fas fa-music"></i><h5>{{ venue.name }}</h5>
 					</div>
