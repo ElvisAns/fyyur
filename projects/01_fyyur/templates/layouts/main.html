@@ -67,11 +67,16 @@
                 (request.endpoint == 'search_artists') or
                 (request.endpoint == 'show_artist') %}
               <form class="search" method="post" action="/artists/search">
-                <input class="form-control"
-                  type="search"
-                  name="search_term"
-                  placeholder="Find an artist"
-                  aria-label="Search">
+                <div class="input-group">
+                  <input type="text" class="form-control" name="search_term" placeholder="Find an artist" aria-label="search artist">
+                  <div class="input-group-btn" style="width: 120px;">
+                    <select class="form-control" name="option">
+                      <option selected>Artist Name</option>
+                      <option>Location</option>
+                      <option>State</option>
+                    </select>
+                  </div>
+                </div>
               </form>
               {% endif %}
             </li>
