@@ -17,6 +17,7 @@ from forms import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import func
+
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -58,9 +59,6 @@ class Venue(db.Model):
     def __repr__(self):
       return f'<Venue : {self.name},{self.city}>'
 
-
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
-
 class Artist(db.Model):
     __tablename__ = 'artist'
 
@@ -77,58 +75,6 @@ class Artist(db.Model):
     seeking_description = db.Column(db.String)
 
     venues = db.relationship('Show',back_populates='artist',cascade="all, delete-orphan")
-
-
-# TODO: implement any missing fields, as a database migration using Flask-Migrate
-
-# TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
-
-# TODO: implement any missing fields, as a database migration using Flask-Migrate
-
-# TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
-
-"""
-## To get show
-
-venue1 = Venue.query.get(1) #parent
-
-artist1 = Artist.query.get(2) #child
-
-
-dt = datetime.now()
-dateNow = dt.strftime("%d/%m/%Y %H:%M:%S")
-
-
-show1 = Show(start_time=dateNow)
-
-show1.artist = artist1
-show1.venue = venue1
-
-db.session.add(show1)
-"""
-
-"""
-## To insert venue and artist
-venue1 = Venue(name="Sanaa Weekend",city="San Francisco",state="CA",address="Congolo",phone="+243971774989")
-
-artist1 = Artist(name="John Santos",city="Bukavu",state="Nord kivu",phone="+2439981333",genres= json.dumps(["Pop","RNB"]))
-
-db.session.add_all([venue1,artist1])
-"""
-
-
-#show1 = Show.query.all()
-#venue1 = Venue.query.get(1) 
-
-
-try:
-  db.session.commit()
-except Exception as e:
-  print(e)
-  print("There was an error executing your command")
-  db.session.rollback()
-
-
 
 #----------------------------------------------------------------------------#
 # Filters.
@@ -160,8 +106,6 @@ def index():
 
 @app.route('/venues')
 def venues():
-  # TODO: replace with real venues data.
-  #       num_upcoming_shows should be aggregated based on number of upcoming shows per venue.
   city_venues = db.session.query(Venue.city,Venue.state,func.count(Venue.id)).group_by('city','state').all()
   data = []
   for places in city_venues:
@@ -183,9 +127,6 @@ def venues():
 
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
-  # TODO: implement search on venues with partial string search. Ensure it is case-insensitive.
-  # seach for Hop should return "The Musical Hop".
-  # search for "Music" should return "The Musical Hop" and "Park Square Live Music & Coffee"
   search = request.form.get("search_term")
   result = Venue.query.filter(Venue.name.ilike(f'%{search}%') | Venue.name.ilike(f'{search}%')| Venue.name.ilike(f'%{search}')).all()
 
@@ -198,8 +139,6 @@ def search_venues():
 
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
-  # shows the venue page with the given venue_id
-  # TODO: replace with real venue data from the venues table, using venue_id
   data={}
   venue=Venue.query.get(venue_id)
   data['name']=venue.name
@@ -288,14 +227,6 @@ def create_venue_submission():
   finally:
     db.session.close()
 
-  # TODO: insert form data as a new Venue record in the db, instead
-  # TODO: modify data to be the data object returned from db insertion
-
-  # on successful db insert, flash success
-  # flash('Venue ' + request.form['name'] + ' was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
-  # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
-  # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
   return render_template('pages/home.html')
 
 @app.route('/venues/delete/<venue_id>', methods=['GET'])
@@ -321,15 +252,11 @@ def delete_venue(venue_id):
 #  ----------------------------------------------------------------
 @app.route('/artists')
 def artists():
-  # TODO: replace with real data returned from querying the database
   data=Artist.query.all()
   return render_template('pages/artists.html', artists=data)
 
 @app.route('/artists/search', methods=['POST'])
 def search_artists():
-  # TODO: implement search on artists with partial string search. Ensure it is case-insensitive.
-  # seach for "A" should return "Guns N Petals", "Matt Quevado", and "The Wild Sax Band".
-  # search for "band" should return "The Wild Sax Band".
   search = request.form.get("search_term")
   result = Artist.query.filter(Artist.name.ilike(f'%{search}%') | Artist.name.ilike(f'{search}%')| Artist.name.ilike(f'%{search}')).all()
 
@@ -341,8 +268,6 @@ def search_artists():
 
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
-  # shows the artist page with the given artist_id
-  # TODO: replace with real artist data from the artist table, using artist_id
   data={}
   artist=Artist.query.get(artist_id)
   data['name']=artist.name
@@ -413,7 +338,6 @@ def edit_artist(artist_id):
     seeking_description=artist.seeking_description,
     image_link=artist.image_link
   )
-  # TODO: populate form with fields from artist with ID <artist_id>
   return render_template('forms/edit_artist.html', form=forms, artist=artist)
 
 @app.route('/artists/<int:artist_id>/edit', methods=['POST'])
@@ -444,9 +368,6 @@ def edit_artist_submission(artist_id):
     flash("Something went wrong while trying to edit the artist "+ artist.name +"'s informations")
   finally:
     db.session.close()
-  
-  # TODO: take values from the form submitted, and update existing
-  # artist record with ID <artist_id> using the new attributes
 
   return redirect(url_for('show_artist', artist_id=artist_id))
 
@@ -473,7 +394,7 @@ def edit_venue(venue_id):
     seeking_description=venue.seeking_description,
     image_link = venue.image_link
   )
-  # TODO: populate form with values from venue with ID <venue_id>
+
   return render_template('forms/edit_venue.html', form=form, venue=venue)
 
 @app.route('/venues/<int:venue_id>/edit', methods=['POST'])
@@ -506,9 +427,7 @@ def edit_venue_submission(venue_id):
     flash("An error occured, the venue "+ venue_id + " was not updated")
   finally:
     db.session.close()
-  
-  # TODO: take values from the form submitted, and update existing
-  # venue record with ID <venue_id> using the new attributes
+
   return redirect(url_for('show_venue', venue_id=venue_id))
 
 #  Create Artist
@@ -550,14 +469,6 @@ def create_artist_submission():
   finally:
     db.session.close()
 
-  # called upon submitting the new artist listing form
-  # TODO: insert form data as a new Venue record in the db, instead
-  # TODO: modify data to be the data object returned from db insertion
-
-  # on successful db insert, flash success
-  # flash('Artist ' + request.form['name'] + ' was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
-  # e.g., flash('An error occurred. Artist ' + data.name + ' could not be listed.')
   return render_template('pages/home.html')
 
 
@@ -566,8 +477,6 @@ def create_artist_submission():
 
 @app.route('/shows')
 def shows():
-  # displays list of shows at /shows
-  # TODO: replace with real venues data.
   shows = Show.query.all()
   data = []
   for show in shows:
@@ -621,14 +530,6 @@ def create_show_submission():
   finally:
     db.session.close()
 
-  # called to create new shows in the db, upon submitting new show listing form
-  # TODO: insert form data as a new Show record in the db, instead
-
-  # on successful db insert, flash success
-  #flash('Show was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
-  # e.g., flash('An error occurred. Show could not be listed.')
-  # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
   return redirect(url_for('index'))
 
 @app.errorhandler(404)
