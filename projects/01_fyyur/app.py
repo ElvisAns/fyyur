@@ -303,7 +303,7 @@ def delete_venue(venue_id):
 
   venue = Venue.query.get(venue_id)
   show = Show.query.filter_by(venue_id=venue_id).first()
-  venue.artists.remove(show)
+  if(show): venue.artists.remove(show)
   db.session.delete(venue)
 
   try:
