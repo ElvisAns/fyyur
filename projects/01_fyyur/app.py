@@ -210,7 +210,10 @@ def artists():
 @app.route('/artists/search', methods=['POST'])
 def search_artists():
   search = request.form.get("search_term")
-  result = Artist.query.filter(Artist.name.ilike(f'%{search}%') | Artist.name.ilike(f'{search}%')| Artist.name.ilike(f'%{search}')).all()
+  if search is not None:
+    result = Artist.query.filter(Artist.name.ilike(f'%{search}%') | Artist.name.ilike(f'{search}%')| Artist.name.ilike(f'%{search}')).all()
+  else:
+    result = Artist.query.all()
 
   response={
     "count": len(result),
