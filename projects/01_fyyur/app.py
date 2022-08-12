@@ -53,7 +53,7 @@ class Venue(db.Model):
     genres = db.Column(db.String(120))
     seeking_talent = db.Column(db.Boolean,default=False)
     seeking_description = db.Column(db.String)
-    artists = db.relationship('Show',back_populates='venue')
+    artists = db.relationship('Show',back_populates='venue',cascade="all, delete-orphan")
 
     def __repr__(self):
       return f'<Venue : {self.name},{self.city}>'
@@ -76,7 +76,7 @@ class Artist(db.Model):
     seeking_venue = db.Column(db.Boolean,default=False)
     seeking_description = db.Column(db.String)
 
-    venues = db.relationship('Show',back_populates='artist')
+    venues = db.relationship('Show',back_populates='artist',cascade="all, delete-orphan")
 
 
 # TODO: implement any missing fields, as a database migration using Flask-Migrate
@@ -303,7 +303,7 @@ def delete_venue(venue_id):
 
   venue = Venue.query.get(venue_id)
   show = Show.query.filter_by(venue_id=venue_id).first()
-  db.session.delete(show)
+  venue.artists.remove(show)
   db.session.delete(venue)
 
   try:
