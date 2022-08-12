@@ -80,7 +80,10 @@ def venues():
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
   search = request.form.get("search_term")
-  result = Venue.query.filter(Venue.name.ilike(f'%{search}%') | Venue.name.ilike(f'{search}%')| Venue.name.ilike(f'%{search}')).all()
+  if search is not None:
+    result = Venue.query.filter(Venue.name.ilike(f'%{search}%') | Venue.name.ilike(f'{search}%')| Venue.name.ilike(f'%{search}')).all()
+  else:
+    result = Venue.query.all()
 
   response={
     "count": len(result),
