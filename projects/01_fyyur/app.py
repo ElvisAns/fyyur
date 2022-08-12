@@ -420,7 +420,10 @@ def edit_artist(artist_id):
 def edit_artist_submission(artist_id):
   artist = Artist.query.get(artist_id)
   data = request.form
-  print(data)
+  try:
+    sv = True if data["seeking_venue"]=='y' else False
+  except:
+    sv = False
   artist.name = data["name"]
   artist.genres = json.dumps([data["genres"]])
   artist.city=data["city"]
@@ -428,12 +431,7 @@ def edit_artist_submission(artist_id):
   artist.phone=data["phone"]
   artist.website=data["website_link"]
   artist.facebook_link=data["facebook_link"]
-  try:
-    artist.seeking_venue=True if data["seeking_venue"]=='y' else False
-  except:
-    print(data)
-    print("No value supplied for seeking_venue")
-
+  artist.seeking_venue=sv
   artist.seeking_description=data["seeking_description"]
   artist.image_link=data["image_link"]
   db.session.add(artist)
