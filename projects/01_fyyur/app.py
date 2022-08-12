@@ -522,6 +522,10 @@ def create_artist_form():
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
   datas = request.form
+  try:
+    sv = True if (datas['seeking_venue']=='y') else False
+  except:
+    sv = False
   artist = Artist(
     name=datas['name'],
     city=datas['city'],
@@ -531,7 +535,7 @@ def create_artist_submission():
     facebook_link=datas['facebook_link'],
     image_link = datas['image_link'],
     website_link= datas['website_link'],
-    seeking_venue=True if (datas['seeking_venue']=='y') else False,
+    seeking_venue= sv,
     seeking_description=datas['seeking_description']
   )
   db.session.add(artist)
