@@ -214,3 +214,8 @@ h2.monospace {
   border-radius: 10px;
   margin:0px 10px 10px 0;
 }
+
+#footer .col-sm-12{
+  padding:20px 0px;
+  text-align: center;
+}
