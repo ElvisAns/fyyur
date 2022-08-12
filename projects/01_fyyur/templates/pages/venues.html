@@ -2,20 +2,25 @@
 {% block title %}Fyyur | Venues{% endblock %}
 {% block content %}
 {% for area in areas %}
-<h3>{{ area.city }}, {{ area.state }}</h3>
-	<ul class="items">
-		{% for venue in area.venues %}
-		<li>
-			<a href="/venues/{{ venue.id }}">
-				<i class="fas fa-music"></i>
-				<div class="item">
-					<h5>{{ venue.name }}</h5>
-				</div>
+<div class="col-sm-3">
+	<h3>{{ area.city }}, {{ area.state }}</h3>
+		<div class="row">
+			{% for venue in area.venues %}
+			<div class="col-sm-12">
+				<a href="/venues/{{ venue.id }}">
+					<div class="item">
+						<i class="fas fa-music"></i><h5>{{ venue.name }}</h5>
+					</div>
+				</a>
 
-				<div class="item"><a class="btn btn-danger btn-sm" href="/venues/delete/{{ venue.id }}"><i class="fa fa-window-close" aria-hidden="true"></i> Delete venue</a></div>
-			</a>
-		</li>
-		{% endfor %}
-	</ul>
+				<div class="item">
+					<a class="btn btn-danger btn-sm" href="/venues/delete/{{ venue.id }}"><i class="fa fa-window-close" aria-hidden="true"></i> Delete venue</a>
+				</div>
+				
+			</div>
+			
+			{% endfor %}
+		</div>
+</div>
 {% endfor %}
 {% endblock %}
