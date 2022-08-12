@@ -482,6 +482,10 @@ def edit_venue(venue_id):
 def edit_venue_submission(venue_id):
   venue = Venue.query.get(venue_id)
   datas=request.form
+  try:
+    st = True if datas["seeking_talent"]=='y' else False
+  except:
+    st = False
   venue.name=datas["name"]
   venue.genres=json.dumps([datas["genres"]])
   venue.address=datas["address"]
@@ -490,7 +494,7 @@ def edit_venue_submission(venue_id):
   venue.phone=datas["phone"]
   venue.website_link=datas["website_link"]
   venue.facebook_link=datas["facebook_link"]
-  venue.seeking_talent=True if datas["seeking_talent"]=='y' else False
+  venue.seeking_talent=st
   venue.seeking_description=datas["seeking_description"]
   venue.image_link=datas["image_link"]
 
