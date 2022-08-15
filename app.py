@@ -33,9 +33,9 @@ migrate = Migrate(app, db)
 # Filters.
 #----------------------------------------------------------------------------#
 
-def format_datetime(value, format='medium'):
-  return value
+def format_datetime(date, format='medium'):
   dateutil
+  value = str(date) #explit convert the upcoming data to string
   date = dateutil.parser.parse(value)
   if format == 'full':
       format="EEEE MMMM, d, y 'at' h:mma"
