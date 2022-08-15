@@ -263,20 +263,29 @@ def show_artist(artist_id):
   shows=Show.query.filter_by(artist_id=artist_id).all()
 
   data["past_shows"] = db.session.query(
-    Show,Venue.name.label("venue_name"),
-    Venue.image_link.label("venue_image_link")
+    Show,
+    Venue.name.label("venue_name"),
+    Venue.id.label("venue_id"),
+    Venue.image_link.label("venue_image_link"),
+    Show.start_time
   ).join(Venue).join(Artist).filter(
     Venue.id==Show.venue_id,
     Show.artist_id==artist_id,
     Show.start_time<datetime.now()
   ).all()
 
-  data["upcoming_shows"] = db.session.query(Show).join(Venue).join(Artist).filter(Venue.id==Show.venue_id,Show.artist_id==artist_id,Show.start_time>=datetime.now()).all()
-  print(db.session.query(Show).join(Venue).join(Artist).filter(Venue.id==Show.venue_id,Show.artist_id==artist_id,Show.start_time<datetime.now()))
+  data["upcoming_shows"] = db.session.query(
+    Show,
+    Venue.name.label("venue_name"),
+    Venue.id.label("venue_id"),
+    Venue.image_link.label("venue_image_link"),
+    Show.start_time
+  ).join(Venue).join(Artist).filter(
+    Venue.id==Show.venue_id,
+    Show.artist_id==artist_id,
+    Show.start_time>=datetime.now()
+  ).all()
   
-  for i in data["past_shows"] :
-    print(i.venue_image_link)
-
   data["past_shows_count"]=len(data["past_shows"])
   data["upcoming_shows_count"]=len(data["upcoming_shows"])
 
