@@ -5,11 +5,12 @@
 	{% for artist in artists %}
 	<li>
 		<a href="/artists/{{ artist.id }}">
-			<img src="{{artist.image_link}}" class="artist_caption">
+			<div class="caption_container"><img class="artist_caption" src="{{artist.image_link}}"></div>
 			<div class="item">
 				<h5>{{ artist.name }}</h5>
 			</div>
 		</a>
+		<hr/>
 	</li>
 	{% endfor %}
 </ul>
