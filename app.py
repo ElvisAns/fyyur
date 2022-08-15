@@ -260,8 +260,9 @@ def show_artist(artist_id):
   data['seeking_description']=artist.seeking_description
     
   shows=Show.query.filter_by(artist_id=artist_id).all()
-  data["past_shows"]=[]
-  data["upcoming_shows"]=[]
+
+  past_shows = db.session.query(Show).join(Artist).filter(Show.artist_id==artist_id,Show.start_time<datetime.now()).all()
+  coming_shows = db.session.query(Show).join(Artist).filter(Show.artist_id==artist_id,Show.start_time>=datetime.now()).all()
 
   dt = datetime.now()
   dateNow = dt.strftime("%d/%m/%Y %H:%M:%S")
