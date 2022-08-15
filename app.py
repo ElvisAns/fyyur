@@ -34,6 +34,7 @@ migrate = Migrate(app, db)
 #----------------------------------------------------------------------------#
 
 def format_datetime(value, format='medium'):
+  return value
   dateutil
   date = dateutil.parser.parse(value)
   if format == 'full':
@@ -261,27 +262,8 @@ def show_artist(artist_id):
     
   shows=Show.query.filter_by(artist_id=artist_id).all()
 
-  past_shows = db.session.query(Show).join(Artist).filter(Show.artist_id==artist_id,Show.start_time<datetime.now()).all()
-  coming_shows = db.session.query(Show).join(Artist).filter(Show.artist_id==artist_id,Show.start_time>=datetime.now()).all()
-
-  dt = datetime.now()
-  dateNow = dt.strftime("%d/%m/%Y %H:%M:%S")
-  comp_now = datetime.strptime(dateNow, "%d/%m/%Y %H:%M:%S")
-
-  for show in shows:
-    toPush={}
-    venueForThisShow = Venue.query.get(show.venue_id)
-    comp_show_time = datetime.strptime(str(show.start_time), "%Y-%m-%d %H:%M:%S")
-
-    toPush["venue_id"] = venueForThisShow.id
-    toPush["venue_name"] = venueForThisShow.name
-    toPush["venue_image_link"] = venueForThisShow.image_link
-    toPush["start_time"] = str(show.start_time)
-
-    if(comp_now>comp_show_time): #old show
-      data["past_shows"].append(toPush)
-    else:
-      data["upcoming_shows"].append(toPush)
+  data["past_shows"] = db.session.query(Show).join(Venue).join(Artist).filter(Venue.id==Show.venue_id,Show.artist_id==artist_id,Show.start_time<datetime.now()).all()
+  data["upcoming_shows"] = db.session.query(Show).join(Venue).join(Artist).filter(Venue.id==Show.venue_id,Show.artist_id==artist_id,Show.start_time>=datetime.now()).all()
   
   data["past_shows_count"]=len(data["past_shows"])
   data["upcoming_shows_count"]=len(data["upcoming_shows"])
