@@ -122,30 +122,31 @@ def show_venue(venue_id):
   data["seeking_talent"]=venue.seeking_talent
   data["seeking_descritpion"]=venue.seeking_description
   data["image_link"]=venue.image_link
-    
-  shows=Show.query.filter_by(venue_id=venue_id).all()
-  data["past_shows"]=[]
-  data["upcoming_shows"]=[]
-
-  dt = datetime.now()
-  dateNow = dt.strftime("%d/%m/%Y %H:%M:%S")
-  comp_now = datetime.strptime(dateNow, "%d/%m/%Y %H:%M:%S")
-
-  for show in shows:
-    toPush={}
-    artistForThisShow = Artist.query.get(show.artist_id)
-    comp_show_time = datetime.strptime(str(show.start_time), "%Y-%m-%d %H:%M:%S")
-
-    toPush["artist_id"] = artistForThisShow.id
-    toPush["artist_name"] = artistForThisShow.name
-    toPush["artist_image_link"] = artistForThisShow.image_link
-    toPush["start_time"] = str(show.start_time)
-
-    if(comp_now>comp_show_time): #old show
-      data["past_shows"].append(toPush)
-    else:
-      data["upcoming_shows"].append(toPush)
   
+  data["past_shows"] = db.session.query(
+    Show,
+    Artist.name.label("artist_name"),
+    Artist.id.label("artist_id"),
+    Artist.image_link.label("artist_image_link"),
+    Show.start_time
+  ).join(Venue).join(Artist).filter(
+    Venue.id==venue_id,
+    Show.artist_id==Artist.id,
+    Show.start_time<datetime.now()
+  ).all()
+
+  data["upcoming_shows"] = db.session.query(
+    Show,
+    Artist.name.label("artist_name"),
+    Artist.id.label("artist_id"),
+    Artist.image_link.label("artist_image_link"),
+    Show.start_time
+  ).join(Venue).join(Artist).filter(
+    Venue.id==Show.venue_id,
+    Show.artist_id==Artist.id,
+    Show.start_time>=datetime.now()
+  ).all()
+
   data["past_shows_count"]=len(data["past_shows"])
   data["upcoming_shows_count"]=len(data["upcoming_shows"])
 
