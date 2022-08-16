@@ -435,33 +435,38 @@ def create_artist_form():
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
   datas = request.form
-  try:
-    sv = True if (datas['seeking_venue']=='y') else False
-  except:
-    sv = False
-  artist = Artist(
-    name=datas['name'],
-    city=datas['city'],
-    state=datas['state'],
-    phone=datas['phone'],
-    genres=json.dumps([datas['genres']]),
-    facebook_link=datas['facebook_link'],
-    image_link = datas['image_link'],
-    website_link= datas['website_link'],
-    seeking_venue= sv,
-    seeking_description=datas['seeking_description']
-  )
-  db.session.add(artist)
+  forms = ArtistForm(datas)
+  if(forms.validate()):
+    try:
+      sv = True if (datas['seeking_venue']=='y') else False
+    except:
+      sv = False
+    artist = Artist(
+      name=datas['name'],
+      city=datas['city'],
+      state=datas['state'],
+      phone=datas['phone'],
+      genres=json.dumps([datas['genres']]),
+      facebook_link=datas['facebook_link'],
+      image_link = datas['image_link'],
+      website_link= datas['website_link'],
+      seeking_venue= sv,
+      seeking_description=datas['seeking_description']
+    )
+    db.session.add(artist)
 
-  try:
-    db.session.commit()
-    flash('The artist ' + request.form['name'] + ' was successfully listed!')
-  except Exception as e:
-    print(e)
-    db.session.rollback()
-    flash('An error occurred. Artist ' + datas['name'] + ' could not be listed.')
-  finally:
-    db.session.close()
+    try:
+      db.session.commit()
+      flash('The artist ' + request.form['name'] + ' was successfully listed!')
+    except Exception as e:
+      print(e)
+      db.session.rollback()
+      flash('An error occurred. Artist ' + datas['name'] + ' could not be listed.')
+    finally:
+      db.session.close()
+  else:
+    flash("Your forms contains errors and the artist could not be listed","alert-danger")
+    return render_template('forms/new_artist.html', form=forms)
 
   return render_template('pages/home.html')
 
