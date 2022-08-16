@@ -41,6 +41,23 @@
 			<i class="fas fa-moon"></i> Not currently seeking talent
 		</p>
 		{% endif %}
+
+
+		<div class="form-wrapper" style="margin:30px 0px;">
+			<form method="post" class="form">
+			  {{ form.venue_id() }}
+			  <h4 class="form-heading">List a new show for this venue</h4>
+			  <div class="form-group">
+				<label for="artist_id">Artist</label>
+				{{ form.artist_id(class_ = 'form-control', autofocus = true,required = true) }}
+			  </div>
+			  <div class="form-group">
+				  <label for="start_time">Start Time</label>
+				  {{ form.start_time(class_ = 'form-control', placeholder='YYYY-MM-DD HH:MM', autofocus = true) }}
+				</div>
+			  <input type="submit" value="Create Venue" class="btn btn-primary btn-lg btn-block">
+			</form>
+		</div>
 	</div>
 	<div class="col-sm-6">
 		<img src="{{ venue.image_link }}" alt="Venue Image" />

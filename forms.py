@@ -260,7 +260,8 @@ class ShowForm_Quick(Form):
     )
     artist_id = SelectField(
         'artist_id',
-        validators=[DataRequired()]
+        validators=[DataRequired()],
+        choices=[]
     )
     start_time = DateTimeField(
         'start_time',
