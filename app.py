@@ -197,7 +197,7 @@ def create_venue_submission():
     finally:
       db.session.close()
   else:
-    flash("Your forms contains error and the venue was not listed",'alert-danger') #flash message as danger alert
+    flash("Your form contains error and the venue was not listed",'alert-danger') #flash message as danger alert
     return render_template('forms/new_venue.html', form=form)
 
   return render_template('pages/home.html')
@@ -356,7 +356,7 @@ def edit_artist_submission(artist_id):
     finally:
       db.session.close()
   else:
-    flash("Your forms contains errors and the artist could not be updated","alert-danger")
+    flash("Your form contains errors and the artist could not be updated","alert-danger")
     return render_template('forms/edit_artist.html', form=forms, artist=artist)
   return redirect(url_for('show_artist', artist_id=artist_id))
 
@@ -419,7 +419,7 @@ def edit_venue_submission(venue_id):
     finally:
       db.session.close()
   else:
-    flash("Your forms contains errors and the venue could not be updated","alert-danger")
+    flash("Your form contains errors and the venue could not be updated","alert-danger")
     return render_template('forms/edit_venue.html', form=forms, venue=venue)
 
   return redirect(url_for('show_venue', venue_id=venue_id))
@@ -465,7 +465,7 @@ def create_artist_submission():
     finally:
       db.session.close()
   else:
-    flash("Your forms contains errors and the artist could not be listed","alert-danger")
+    flash("Your form contains errors and the artist could not be listed","alert-danger")
     return render_template('forms/new_artist.html', form=forms)
 
   return render_template('pages/home.html')
@@ -530,7 +530,7 @@ def create_show_submission():
     finally:
       db.session.close()
   else:
-    flash("Your forms contains errors and the show could not be listed","alert-danger")
+    flash("Your form contains errors and the show could not be listed","alert-danger")
     return render_template('forms/new_show.html', form=forms)
 
   return redirect(url_for('index'))
