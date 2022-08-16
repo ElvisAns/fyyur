@@ -120,7 +120,7 @@ def show_venue(venue_id):
   data["website"]=venue.website_link
   data["facebook_link"]=venue.facebook_link
   data["seeking_talent"]=venue.seeking_talent
-  data["seeking_descritpion"]=venue.seeking_description
+  data["seeking_description"]=venue.seeking_description
   data["image_link"]=venue.image_link
   
   data["past_shows"] = db.session.query(
