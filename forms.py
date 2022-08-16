@@ -19,7 +19,7 @@ class ShowForm(Form):
         default= datetime.today()
     )
     def validate_venue_id(form, field):
-        if not re.search(r"^[0-9]+$", field.data):
+        if not re.search(r"^[0-9]+$", field.data): #starts with (^) any number between 0 and 9 [0-9] , repeated many time (+) and Ends like that ($) 
             raise ValidationError("Invalid venue id")
     def validate_artist_id(form, field):
         if not re.search(r"^[0-9]+$", field.data):
@@ -92,10 +92,10 @@ class VenueForm(Form):
         'address', validators=[DataRequired()]
     )
     phone = StringField(
-        'phone'
+        'phone',validators=[DataRequired(),Length(9,13)]
     )
     image_link = StringField(
-        'image_link'
+        'image_link', validators=[DataRequired(),URL()]
     )
     genres = SelectMultipleField(
         # TODO implement enum restriction
@@ -123,17 +123,21 @@ class VenueForm(Form):
         ]
     )
     facebook_link = StringField(
-        'facebook_link', validators=[URL()]
+        'facebook_link', validators=[Optional(),URL()]
     )
     website_link = StringField(
-        'website_link'
+        'website_link', validators=[Optional(),URL()]
     )
-
-    seeking_talent = BooleanField( 'seeking_talent' )
-
+    seeking_talent = BooleanField( 
+        'seeking_talent', validators=[Optional()]
+    )
     seeking_description = StringField(
-        'seeking_description'
+        'seeking_description',validators=[Optional(),URL()]
     )
+    
+    def validate_phone(form,field):
+        if not re.search(r"^\+[0-9]+$", field.data): #start with "+" and any number
+            raise ValidationError("Telephone number incorrect")
 
 
 
@@ -205,7 +209,8 @@ class ArtistForm(Form):
         'phone'
     )
     image_link = StringField(
-        'image_link'
+        'image_link',
+        validators=[DataRequired(),URL()]
     )
     genres = SelectMultipleField(
         'genres', validators=[DataRequired()],
@@ -233,18 +238,20 @@ class ArtistForm(Form):
      )
     facebook_link = StringField(
         # TODO implement enum restriction
-        'facebook_link', validators=[URL()]
+        'facebook_link', validators=[Optional(),URL()]
      )
-
     website_link = StringField(
-        'website_link'
+        'website_link',
+        validators=[Optional(),URL()]
      )
-
-    seeking_venue = BooleanField( 'seeking_venue' )
-
+    seeking_venue = BooleanField( 'seeking_venue',validators=[Optional()])
     seeking_description = StringField(
-            'seeking_description'
+            'seeking_description',
+            validators=[Optional(),Length(5)]
      )
+    def validate_phone(form,field):
+        if not re.search(r"^\+[0-9]+$", field.data): #start with "+" and any number
+            raise ValidationError("Telephone number incorrect")
 
 class ShowForm_Quick(Form):
     venue_id = HiddenField(
