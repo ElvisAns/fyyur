@@ -389,33 +389,38 @@ def edit_venue(venue_id):
 @app.route('/venues/<int:venue_id>/edit', methods=['POST'])
 def edit_venue_submission(venue_id):
   venue = Venue.query.get(venue_id)
-  datas=request.form
-  try:
-    st = True if datas["seeking_talent"]=='y' else False
-  except:
-    st = False
-  venue.name=datas["name"]
-  venue.genres=json.dumps([datas["genres"]])
-  venue.address=datas["address"]
-  venue.city=datas["city"]
-  venue.state=datas["state"]
-  venue.phone=datas["phone"]
-  venue.website_link=datas["website_link"]
-  venue.facebook_link=datas["facebook_link"]
-  venue.seeking_talent=st
-  venue.seeking_description=datas["seeking_description"]
-  venue.image_link=datas["image_link"]
+  datas = request.form
+  forms = VenueForm(datas)
+  if(forms.validate()):
+    try:
+      st = True if datas["seeking_talent"]=='y' else False
+    except:
+      st = False
+    venue.name=datas["name"]
+    venue.genres=json.dumps([datas["genres"]])
+    venue.address=datas["address"]
+    venue.city=datas["city"]
+    venue.state=datas["state"]
+    venue.phone=datas["phone"]
+    venue.website_link=datas["website_link"]
+    venue.facebook_link=datas["facebook_link"]
+    venue.seeking_talent=st
+    venue.seeking_description=datas["seeking_description"]
+    venue.image_link=datas["image_link"]
 
-  db.session.add(venue)
-  try:
-    db.session.commit()
-    flash("The venue "+ str(venue_id) + " has been successfully updated")
-  except Exception as e:
-    print(e)
-    db.session.rollback()
-    flash("An error occured, the venue "+ venue_id + " was not updated")
-  finally:
-    db.session.close()
+    db.session.add(venue)
+    try:
+      db.session.commit()
+      flash("The venue "+ str(venue_id) + " has been successfully updated")
+    except Exception as e:
+      print(e)
+      db.session.rollback()
+      flash("An error occured, the venue "+ venue_id + " was not updated")
+    finally:
+      db.session.close()
+  else:
+    flash("Your forms contains errors and the venue could not be updated","alert-danger")
+    return render_template('forms/edit_venue.html', form=forms, venue=venue)
 
   return redirect(url_for('show_venue', venue_id=venue_id))
 
