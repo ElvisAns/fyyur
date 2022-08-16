@@ -165,8 +165,8 @@ def create_venue_form():
 @app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
   datas = request.form
-  form = VenueForm()
-  if form.validate_on_submit(): #form validated
+  form = VenueForm(datas)
+  if form.validate(): #form validated
     try:
       y=True if (datas['seeking_talent']=='y') else False
     except:
@@ -197,6 +197,7 @@ def create_venue_submission():
     finally:
       db.session.close()
   else:
+    flash("Your forms contains error and the venue was not listed",'alert-danger') #flash message as danger alert
     return render_template('forms/new_venue.html', form=form)
 
   return render_template('pages/home.html')
@@ -328,31 +329,35 @@ def edit_artist(artist_id):
 def edit_artist_submission(artist_id):
   artist = Artist.query.get(artist_id)
   data = request.form
-  try:
-    sv = True if data["seeking_venue"]=='y' else False
-  except:
-    sv = False
-  artist.name = data["name"]
-  artist.genres = json.dumps([data["genres"]])
-  artist.city=data["city"]
-  artist.state=data["state"]
-  artist.phone=data["phone"]
-  artist.website=data["website_link"]
-  artist.facebook_link=data["facebook_link"]
-  artist.seeking_venue=sv
-  artist.seeking_description=data["seeking_description"]
-  artist.image_link=data["image_link"]
-  db.session.add(artist)
-  try:
-    db.session.commit()
-    flash("The Artist " + artist.name + "'s informations has been successfully edited")
-  except Exception as e:
-    print(e)
-    db.session.rollback()
-    flash("Something went wrong while trying to edit the artist "+ artist.name +"'s informations")
-  finally:
-    db.session.close()
-
+  forms = ArtistForm(data)
+  if(forms.validate()):
+    try:
+      sv = True if data["seeking_venue"]=='y' else False
+    except:
+      sv = False
+    artist.name = data["name"]
+    artist.genres = json.dumps([data["genres"]])
+    artist.city=data["city"]
+    artist.state=data["state"]
+    artist.phone=data["phone"]
+    artist.website=data["website_link"]
+    artist.facebook_link=data["facebook_link"]
+    artist.seeking_venue=sv
+    artist.seeking_description=data["seeking_description"]
+    artist.image_link=data["image_link"]
+    db.session.add(artist)
+    try:
+      db.session.commit()
+      flash("The Artist " + artist.name + "'s informations has been successfully edited")
+    except Exception as e:
+      print(e)
+      db.session.rollback()
+      flash("Something went wrong while trying to edit the artist "+ artist.name +"'s informations")
+    finally:
+      db.session.close()
+  else:
+    flash("Your forms contains errors and the artist could not be updated","alert-danger")
+    return render_template('forms/edit_artist.html', form=forms, artist=artist)
   return redirect(url_for('show_artist', artist_id=artist_id))
 
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
