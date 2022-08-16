@@ -502,32 +502,36 @@ def create_shows():
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
   datas =  request.form
-  print(datas)
-  venue1 = Venue.query.get(datas["venue_id"]) #parent
-  if not venue1:
-    flash("The venue ID could not be found")
-    return redirect(url_for('index'))
+  forms  = ShowForm(datas)
+  if(forms.validate()):
+    venue1 = Venue.query.get(datas["venue_id"]) #parent
+    if not venue1:
+      flash("The venue ID could not be found")
+      return redirect(url_for('index'))
 
-  artist1 = Artist.query.get(datas["artist_id"]) #child
-  if not artist1:
-    flash("The artist ID could not be found")
-    return redirect(url_for('index'))
+    artist1 = Artist.query.get(datas["artist_id"]) #child
+    if not artist1:
+      flash("The artist ID could not be found")
+      return redirect(url_for('index'))
 
-  show1 = Show(start_time=datas['start_time'])
-  show1.artist = artist1
-  show1.venue = venue1
+    show1 = Show(start_time=datas['start_time'])
+    show1.artist = artist1
+    show1.venue = venue1
 
-  db.session.add(show1)
+    db.session.add(show1)
 
-  try:
-    db.session.commit()
-    flash('Show was successfully listed!')
-  except Exception as e:
-    print(e)
-    db.session.rollback()
-    flash("Un error occured while listing the show")
-  finally:
-    db.session.close()
+    try:
+      db.session.commit()
+      flash('Show was successfully listed!')
+    except Exception as e:
+      print(e)
+      db.session.rollback()
+      flash("Un error occured while listing the show")
+    finally:
+      db.session.close()
+  else:
+    flash("Your forms contains errors and the show could not be listed","alert-danger")
+    return render_template('forms/new_show.html', form=forms)
 
   return redirect(url_for('index'))
 
