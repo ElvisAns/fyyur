@@ -2,7 +2,7 @@ from datetime import datetime
 from flask_wtf import Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField,HiddenField
 from wtforms.validators import *
-
+import re
 
 class ShowForm(Form):
     artist_id = StringField(
@@ -18,6 +18,12 @@ class ShowForm(Form):
         validators=[DataRequired()],
         default= datetime.today()
     )
+    def validate_venue_id(form, field):
+        if not re.search(r"^[0-9]+$", field.data):
+            raise ValidationError("Invalid venue id")
+    def validate_artist_id(form, field):
+        if not re.search(r"^[0-9]+$", field.data):
+            raise ValidationError("Invalid artist id")
 
 class VenueForm(Form):
     name = StringField(
