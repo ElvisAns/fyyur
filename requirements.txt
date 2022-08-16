@@ -1,3 +1,4 @@
+alembic==1.8.1
 apturl==0.5.2
 asn1crypto==0.24.0
 attrs==19.3.0
@@ -59,6 +60,7 @@ oauthlib==3.1.0
 olefile==0.46
 packaging==21.3
 paramiko==2.6.0
+pbr==5.10.0
 pexpect==4.6.0
 Pillow==7.0.0
 protobuf==3.6.1
@@ -89,8 +91,9 @@ six==1.16.0
 SQLAlchemy==1.4.39
 system-service==0.3
 systemd-python==234
+testresources==2.0.1
 texttable==1.6.2
-ubuntu-advantage-tools==27.8
+ubuntu-advantage-tools==27.9
 ubuntu-drivers-common==0.0.0
 ufw==0.36
 unattended-upgrades==0.1
