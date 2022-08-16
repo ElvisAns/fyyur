@@ -193,7 +193,7 @@ def create_venue_submission():
     except Exception as e:
       print(e)
       db.session.rollback()
-      flash('An error occurred. Venue ' + datas['name'] + ' could not be listed.')
+      flash('An error occurred. Venue ' + datas['name'] + ' could not be listed.','alert-danger')
     finally:
       db.session.close()
   else:
@@ -215,7 +215,7 @@ def delete_venue(venue_id):
     flash('The Venue '+ venue_id+' was successfully deleted!')
   except Exception as e:
     print(e)
-    flash('An error occurred, Venue '+venue_id+' could not be deleted!')
+    flash('An error occurred, Venue '+venue_id+' could not be deleted!','alert-danger')
   finally:
     db.session.close()
   
@@ -352,7 +352,7 @@ def edit_artist_submission(artist_id):
     except Exception as e:
       print(e)
       db.session.rollback()
-      flash("Something went wrong while trying to edit the artist "+ artist.name +"'s informations")
+      flash("Something went wrong while trying to edit the artist "+ artist.name +"'s informations",'alert-danger')
     finally:
       db.session.close()
   else:
@@ -415,7 +415,7 @@ def edit_venue_submission(venue_id):
     except Exception as e:
       print(e)
       db.session.rollback()
-      flash("An error occured, the venue "+ venue_id + " was not updated")
+      flash("An error occured, the venue "+ venue_id + " was not updated",'alert-danger')
     finally:
       db.session.close()
   else:
@@ -461,7 +461,7 @@ def create_artist_submission():
     except Exception as e:
       print(e)
       db.session.rollback()
-      flash('An error occurred. Artist ' + datas['name'] + ' could not be listed.')
+      flash('An error occurred. Artist ' + datas['name'] + ' could not be listed.','alert-danger')
     finally:
       db.session.close()
   else:
@@ -506,12 +506,12 @@ def create_show_submission():
   if(forms.validate()):
     venue1 = Venue.query.get(datas["venue_id"]) #parent
     if not venue1:
-      flash("The venue ID could not be found")
+      flash("The venue ID could not be found",'alert-danger')
       return redirect(url_for('index'))
 
     artist1 = Artist.query.get(datas["artist_id"]) #child
     if not artist1:
-      flash("The artist ID could not be found")
+      flash("The artist ID could not be found",'alert-danger')
       return redirect(url_for('index'))
 
     show1 = Show(start_time=datas['start_time'])
@@ -526,7 +526,7 @@ def create_show_submission():
     except Exception as e:
       print(e)
       db.session.rollback()
-      flash("Un error occured while listing the show")
+      flash("Un error occured while listing the show",'alert-danger')
     finally:
       db.session.close()
   else:
