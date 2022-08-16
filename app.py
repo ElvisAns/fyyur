@@ -200,7 +200,7 @@ def create_venue_submission():
     flash("Your form contains error and the venue was not listed",'alert-danger') #flash message as danger alert
     return render_template('forms/new_venue.html', form=form)
 
-  return render_template('pages/home.html')
+  return redirect(url_for('index'))
 
 @app.route('/venues/delete/<venue_id>', methods=['GET'])
 def delete_venue(venue_id):
@@ -468,7 +468,7 @@ def create_artist_submission():
     flash("Your form contains errors and the artist could not be listed","alert-danger")
     return render_template('forms/new_artist.html', form=forms)
 
-  return render_template('pages/home.html')
+  return redirect(url_for('index'))
 
 
 #  Shows
