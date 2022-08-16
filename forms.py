@@ -132,7 +132,7 @@ class VenueForm(Form):
         'seeking_talent', validators=[Optional()]
     )
     seeking_description = StringField(
-        'seeking_description',validators=[Optional(),URL()]
+        'seeking_description',validators=[Optional(),Length(5)]
     )
     
     def validate_phone(form,field):
