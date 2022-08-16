@@ -255,10 +255,12 @@ class ArtistForm(Form):
 
 class ShowForm_Quick(Form):
     venue_id = HiddenField(
-        'venue_id'
+        'venue_id',
+        validators=[DataRequired()]
     )
     artist_id = SelectField(
-        'artist_id'
+        'artist_id',
+        validators=[DataRequired()]
     )
     start_time = DateTimeField(
         'start_time',
