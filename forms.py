@@ -1,14 +1,17 @@
 from datetime import datetime
 from flask_wtf import Form
-from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField
-from wtforms.validators import DataRequired, AnyOf, URL
+from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField,HiddenField
+from wtforms.validators import *
+
 
 class ShowForm(Form):
     artist_id = StringField(
-        'artist_id'
+        'artist_id',
+        validators=[DataRequired()],
     )
     venue_id = StringField(
-        'venue_id'
+        'venue_id',
+        validators=[DataRequired()],
     )
     start_time = DateTimeField(
         'start_time',
@@ -237,3 +240,15 @@ class ArtistForm(Form):
             'seeking_description'
      )
 
+class ShowForm_Quick(Form):
+    venue_id = HiddenField(
+        'venue_id'
+    )
+    artist_id = SelectField(
+        'artist_id'
+    )
+    start_time = DateTimeField(
+        'start_time',
+        validators=[DataRequired()],
+        default= datetime.today()
+    )
