@@ -151,8 +151,9 @@ def show_venue(venue_id):
   data["upcoming_shows_count"]=len(data["upcoming_shows"])
 
   artists = Artist.query.all()
-
-  return render_template('pages/show_venue.html',form = ShowForm_Quick(),artists=artists,venue_id=venue_id,venue=data)
+  form = ShowForm_Quick()
+  form.artist_id.choices = [(artist.id, artist.name) for artist in artists]
+  return render_template('pages/show_venue.html',form = form,artists=artists,venue_id=venue_id,venue=data)
 
 #  Create Venue
 #  ----------------------------------------------------------------
