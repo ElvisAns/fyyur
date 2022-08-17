@@ -56,6 +56,7 @@
                 (request.endpoint == 'search_venues') or
                 (request.endpoint == 'show_venue') %}
               <form class="search" method="post" action="/venues/search">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="input-group">
                   <input class="form-control" type="search" name="search_term" placeholder="Find a venue" aria-label="Search">
                   <div class="input-group-btn" style="width: 130px;">
@@ -72,6 +73,7 @@
                 (request.endpoint == 'search_artists') or
                 (request.endpoint == 'show_artist') %}
               <form class="search" method="post" action="/artists/search">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="input-group">
                   <input type="text" class="form-control" name="search_term" placeholder="Find an artist" aria-label="search artist">
                   <div class="input-group-btn" style="width: 120px;">

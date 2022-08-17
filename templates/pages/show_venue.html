@@ -46,6 +46,7 @@
 		<div class="form-wrapper" style="margin:30px 0px;">
 			<form method="post" class="form" action="/shows/create">
 			  {{ form.venue_id() }}
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 			  <h4 class="form-heading">List a new show for this venue</h4>
 			  <div class="form-group">
 				<label for="artist_id">Artist</label>
