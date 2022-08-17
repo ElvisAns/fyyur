@@ -1,10 +1,11 @@
 from datetime import datetime
-from flask_wtf import Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField,HiddenField
 from wtforms.validators import *
+from flask_wtf import FlaskForm
 import re
+import enum
 
-class ShowForm(Form):
+class ShowForm(FlaskForm):
     artist_id = StringField(
         'artist_id',
         validators=[DataRequired()],
@@ -25,7 +26,7 @@ class ShowForm(Form):
         if not re.search(r"^[0-9]+$", field.data):
             raise ValidationError("Invalid artist id")
 
-class VenueForm(Form):
+class VenueForm(FlaskForm):
     name = StringField(
         'name', validators=[DataRequired()]
     )
@@ -141,7 +142,7 @@ class VenueForm(Form):
 
 
 
-class ArtistForm(Form):
+class ArtistForm(FlaskForm):
     name = StringField(
         'name', validators=[DataRequired()]
     )
@@ -253,7 +254,7 @@ class ArtistForm(Form):
         if not re.search(r"^\+[0-9]+$", field.data): #start with "+" and any number
             raise ValidationError("Telephone number incorrect")
 
-class ShowForm_Quick(Form):
+class ShowForm_Quick(FlaskForm):
     venue_id = HiddenField(
         'venue_id',
         validators=[DataRequired()]

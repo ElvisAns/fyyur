@@ -18,12 +18,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import func
 from models.model import db,Show,Artist,Venue
-
+from flask_wtf.csrf import CSRFProtect
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
 
 app = Flask(__name__)
+csrf = CSRFProtect(app)
+csrf.init_app(app)
 moment = Moment(app)
 app.config.from_object('config')
 db.init_app(app)
