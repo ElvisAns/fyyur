@@ -239,9 +239,7 @@ class VenueForm(FlaskForm):
     
     def validate_phone(form,field):
         if not re.search(r"^\+[0-9]+$", field.data): #start with "+" and any number
-            raise ValidationError("Telephone number incorrect")
-
-
+            raise ValidationError("Telephone number format incorrect")
 
 class ArtistForm(FlaskForm):
     name = StringField(
@@ -282,7 +280,7 @@ class ArtistForm(FlaskForm):
      )
     def validate_phone(form,field):
         if not re.search(r"^\+[0-9]+$", field.data): #start with "+" and any number
-            raise ValidationError("Telephone number incorrect")
+            raise ValidationError("Telephone number format incorrect")
 
 class ShowForm_Quick(FlaskForm):
     venue_id = HiddenField(
