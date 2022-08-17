@@ -155,19 +155,23 @@ class States(enum.Enum):
     WY='WY'
 
 def validate_genres(form, prop):
-    print(prop.data)
     for genre in prop.data:
         try:
-            value = Genres[genre] #Access the Genres enum as iterable by name to access by value we may use Genres()
+            value = Genres[genre] #Access the Genres enum as iterable by name, to access by value we may use Genres()
         except:
             raise ValidationError(
                 f'{genre} is not an allowed genre'
             )
 
 def validate_states(form, prop):
-    raise ValidationError(
-        'Test validation'
-    )
+    state = prop.data #state single select, no need to loop
+    print(state)
+    try:
+        value = States[state] #Access the States enum as iterable by name, to access by value we may use States()
+    except:
+        raise ValidationError(
+            f'{state} is not an allowed genre'
+        )
 
 class ShowForm(FlaskForm):
     artist_id = StringField(
