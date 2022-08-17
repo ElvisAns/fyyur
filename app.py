@@ -180,7 +180,7 @@ def create_venue_submission():
       state=datas['state'],
       address=datas['address'],
       phone=datas['phone'],
-      genres=json.dumps([datas['genres']]),
+      genres=json.dumps(form.genres.data),
       facebook_link=datas['facebook_link'],
       image_link = datas['image_link'],
       website_link= datas['website_link'],
@@ -339,7 +339,7 @@ def edit_artist_submission(artist_id):
     except:
       sv = False
     artist.name = data["name"]
-    artist.genres = json.dumps([data["genres"]])
+    artist.genres = json.dumps(forms.genres.data) # as the genres is werkzeug MultiDict, better pick datas from the processed form data
     artist.city=data["city"]
     artist.state=data["state"]
     artist.phone=data["phone"]
@@ -400,7 +400,7 @@ def edit_venue_submission(venue_id):
     except:
       st = False
     venue.name=datas["name"]
-    venue.genres=json.dumps([datas["genres"]])
+    venue.genres=json.dumps(forms.genres.data)
     venue.address=datas["address"]
     venue.city=datas["city"]
     venue.state=datas["state"]
@@ -449,7 +449,7 @@ def create_artist_submission():
       city=datas['city'],
       state=datas['state'],
       phone=datas['phone'],
-      genres=json.dumps([datas['genres']]),
+      genres=json.dumps(forms.genres.data),
       facebook_link=datas['facebook_link'],
       image_link = datas['image_link'],
       website_link= datas['website_link'],
