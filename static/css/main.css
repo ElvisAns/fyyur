@@ -225,9 +225,11 @@ h2.monospace {
   text-align: center;
 }
 
-
-
 .custom_input{
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
+}
+
+.show-filter{
+  margin:20px 0px;
 }
