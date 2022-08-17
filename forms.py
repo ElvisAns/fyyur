@@ -208,7 +208,8 @@ class ArtistForm(FlaskForm):
     )
     phone = StringField(
         # TODO implement validation logic for phone 
-        'phone'
+        'phone',
+        validators=[DataRequired()]
     )
     image_link = StringField(
         'image_link',
