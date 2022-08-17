@@ -172,7 +172,6 @@ def validate_genres(form, prop):
 
 def validate_states(form, prop):
     state = prop.data #state single select, no need to loop
-    print(state)
     try:
         value = States[state] #Access the States enum as iterable by name, to access by value we may use States()
     except:
