@@ -101,8 +101,68 @@ class Genres(enum.Enum):
     Soul='Soul'
     Other='Other'
 
-print(Genres("Blues").value)
+class States(enum.Enum):
+    AL='AL'
+    AK='AK'
+    AZ='AZ'
+    AR='AR'
+    CA='CA'
+    CO='CO'
+    CT='CT'
+    DE='DE'
+    DC='DC'
+    FL='FL'
+    GA='GA'
+    HI='HI'
+    ID='ID'
+    IL='IL'
+    IN='IN'
+    IA='IA'
+    KS='KS'
+    KY='KY'
+    LA='LA'
+    ME='ME'
+    MT='MT'
+    NE='NE'
+    NV='NV'
+    NH='NH'
+    NJ='NJ'
+    NM='NM'
+    NY='NY'
+    NC='NC'
+    ND='ND'
+    OH='OH'
+    OK='OK'
+    OR='OR'
+    MD='MD'
+    MA='MA'
+    MI='MI'
+    MN='MN'
+    MS='MS'
+    MO='MO'
+    PA='PA'
+    RI='RI'
+    SC='SC'
+    SD='SD'
+    TN='TN'
+    TX='TX'
+    UT='UT'
+    VT='VT'
+    VA='VA'
+    WA='WA'
+    WV='WV'
+    WI='WI'
+    WY='WY'
 
+def validate_genres(form, prop):
+    raise ValidationError(
+        'Test validation'
+    )
+
+def validate_states(form, prop):
+    raise ValidationError(
+        'Test validation'
+    )
 
 class ShowForm(FlaskForm):
     artist_id = StringField(
@@ -133,7 +193,7 @@ class VenueForm(FlaskForm):
         'city', validators=[DataRequired()]
     )
     state = SelectField(
-        'state', validators=[DataRequired()],
+        'state', validators=[DataRequired(),validate_states],
         choices=state_choices
     )
     address = StringField(
@@ -147,7 +207,7 @@ class VenueForm(FlaskForm):
     )
     genres = SelectMultipleField(
         # TODO implement enum restriction
-        'genres', validators=[DataRequired()],
+        'genres', validators=[DataRequired(),validate_genres],
         choices=genres_choices
     )
     facebook_link = StringField(
@@ -177,7 +237,7 @@ class ArtistForm(FlaskForm):
         'city', validators=[DataRequired()]
     )
     state = SelectField(
-        'state', validators=[DataRequired()],
+        'state', validators=[DataRequired(),validate_states],
         choices=state_choices
     )
     phone = StringField(
@@ -190,7 +250,7 @@ class ArtistForm(FlaskForm):
         validators=[DataRequired(),URL()]
     )
     genres = SelectMultipleField(
-        'genres', validators=[DataRequired()],
+        'genres', validators=[DataRequired(),validate_genres],
         choices=genres_choices
      )
     facebook_link = StringField(
