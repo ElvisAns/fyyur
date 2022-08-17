@@ -144,7 +144,7 @@ def show_venue(venue_id):
     Artist.image_link.label("artist_image_link"),
     Show.start_time
   ).join(Venue).join(Artist).filter(
-    Venue.id==Show.venue_id,
+    Venue.id==venue_id,
     Show.artist_id==Artist.id,
     Show.start_time>=datetime.now()
   ).all()
