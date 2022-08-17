@@ -171,7 +171,7 @@ def validate_states(form, prop):
         value = States[state] #Access the States enum as iterable by name, to access by value we may use States()
     except:
         raise ValidationError(
-            f'{state} is not an allowed genre'
+            f'{state} is not an allowed state'
         )
 
 class ShowForm(FlaskForm):
