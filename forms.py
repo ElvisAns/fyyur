@@ -1,7 +1,13 @@
 from datetime import datetime
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField,HiddenField
 from wtforms.validators import *
-from flask_wtf import FlaskForm #Any form that instanciate flask form will have form.csrf_token prop and will create the input for us whenever we place it in the form template
+from flask_wtf import FlaskForm
+"""
+Notice we import FlaskForm instead of Form, then 
+Any form that instanciate flask form will have form.csrf_token prop and will create the input for us 
+whenever we place it in the form template
+
+"""
 import re
 import enum
 
