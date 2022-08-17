@@ -4,6 +4,7 @@ from wtforms.validators import *
 from flask_wtf import FlaskForm #Any form that instanciate flask form will have form.csrf_token prop and will create the input for us whenever we place it in the form template
 import re
 import enum
+
 state_choices=[
     ('AL', 'AL'),
     ('AK', 'AK'),
@@ -215,7 +216,6 @@ class VenueForm(FlaskForm):
         'image_link', validators=[DataRequired(),URL()]
     )
     genres = SelectMultipleField(
-        # TODO implement enum restriction
         'genres', validators=[DataRequired(),validate_genres],
         choices=genres_choices
     )
@@ -250,7 +250,6 @@ class ArtistForm(FlaskForm):
         choices=state_choices
     )
     phone = StringField(
-        # TODO implement validation logic for phone 
         'phone',
         validators=[DataRequired()]
     )
@@ -264,6 +263,7 @@ class ArtistForm(FlaskForm):
      )
     facebook_link = StringField(
         # TODO implement enum restriction
+        # I think we dont need enum restriction here instead we validate only URL
         'facebook_link', validators=[Optional(),URL()]
      )
     website_link = StringField(
