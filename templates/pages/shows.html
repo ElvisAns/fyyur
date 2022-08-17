@@ -8,7 +8,7 @@
 
 <div class="row shows">
     {%for show in shows %}
-    <div class="col-sm-4">
+    <div class="col-sm-4 show-card">
         <div class="tile tile-show">
             <img src="{{ show.artist_image_link }}" alt="Artist Image" />
             <h4>{{ show.start_time|datetime('full') }}</h4>
