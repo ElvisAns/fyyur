@@ -1,6 +1,11 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Fyyur | Shows{% endblock %}
 {% block content %}
+
+<div class="input-group show-filter">
+    <input class="form-control" id="filter-shows" type="search" name="search_term" placeholder="Filter the show list" aria-label="Search">
+</div>
+
 <div class="row shows">
     {%for show in shows %}
     <div class="col-sm-4">
